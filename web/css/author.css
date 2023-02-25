@@ -1,0 +1,18 @@
+.windowModal{
+    position: absolute;
+    z-index: 100;
+    top: 56px;
+    right: 0;
+    width: 40vh;
+    height: 40vh;
+    background-color: rgba(6,58,16,0.29);
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: space-evenly;
+    align-items: baseline;
+}
+.errorInput{
+    background-color: rgba(255,206,207,0.86);
+
+}
