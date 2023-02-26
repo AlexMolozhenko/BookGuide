@@ -2,6 +2,7 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
+$rules = require __DIR__ . '/rules.php';
 
 $config = [
     'id' => 'basic',
@@ -45,14 +46,14 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
+            'rules' => $rules,
         ],
     ],
     'params' => $params,
 ];
 
 if (YII_ENV_DEV) {
+//    unset($config['components']['cache']);
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [

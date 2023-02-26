@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
  */
 class AuthorController extends Controller
 {
+    const LIMIT_PAGE = 15;
     /**
      * @inheritDoc
      */
@@ -38,14 +39,54 @@ class AuthorController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new AuthorSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+//        $searchModel = new AuthorSearch();
+//        $dataProvider = $searchModel->search($this->request->queryParams);
 
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
+        return $this->render('index');
     }
+
+    public function actionGetAuthorList(){
+
+
+        $searchModel = new AuthorSearch();
+        $count = $searchModel->getCountAuthor();
+        if ($this->request->isPost){
+            $offset = $searchModel->offsetAuthor(self::LIMIT_PAGE,$this->request->post('page'));
+        }
+
+//        }else{
+//            $offset = $searchModel->offsetAuthor(self::LIMIT_PAGE,Yii::$app->request->post('page'));
+//        }
+
+        $dataSearch = $searchModel->getAuthor(self::LIMIT_PAGE,$offset);
+
+        $data = [
+            'count' => $count,
+            'dataSearch' => $dataSearch,
+            'limit_page'=>self::LIMIT_PAGE,
+            'offset'=>$offset,
+        ];
+
+        $response =  Yii::$app->response;
+        $response->format = yii\web\Response::FORMAT_JSON;
+        $response->data = $data;
+        $response->send();
+    }
+
+//    public function actionCountPage(){
+//        $authorSearch = new AuthorSearch();
+//        $count = $authorSearch->getCountAuthor();
+//
+//        $response =  Yii::$app->response;
+//        $response->format = yii\web\Response::FORMAT_JSON;
+//        $response->data = $count;
+//        $response->send();
+//
+//    }
 
     /**
      * Displays a single Author model.
@@ -61,16 +102,13 @@ class AuthorController extends Controller
     }
 
     /**
-     * Creates a new Author model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Creates a new Author model
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-
-//        $data=[];
         $model = new Author();
-        $response = new Yii::$app->response;
+        $response =  Yii::$app->response;
         $response->format = yii\web\Response::FORMAT_JSON;
         if ($this->request->isPost) {
             $model->name =$this->request->post('name');

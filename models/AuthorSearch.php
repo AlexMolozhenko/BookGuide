@@ -5,6 +5,7 @@ namespace app\models;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Author;
+use yii\data\Pagination;
 
 /**
  * AuthorSearch represents the model behind the search form of `app\models\Author`.
@@ -67,4 +68,31 @@ class AuthorSearch extends Author
 
         return $dataProvider;
     }
+
+    public function getAuthor($limit,$offset=0){
+        $query = Author::find();
+
+        $author = $query
+            ->select('id,surname,name,patronymic')
+            ->offset($offset)
+            ->limit($limit)
+            ->orderBy('id')
+            ->all();
+        $data=[
+            'author'=>$author,
+        ];
+        return $data;
+    }
+
+    public function getCountAuthor(){
+        $query = Author::find();
+        return $query->count();
+    }
+
+    public function offsetAuthor($limit,$page = 1){
+        $endNum = ($limit * $page);
+        $startNum = ($endNum - $limit);
+        return $startNum;
+    }
+
 }
