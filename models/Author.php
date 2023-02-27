@@ -22,6 +22,12 @@ class Author extends \yii\db\ActiveRecord
         return 'authors';
     }
 
+    public function getBooks()
+    {
+        return $this->hasMany(Books::class, ['id' => 'book_id'])
+            ->viaTable('book_author', ['author_id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      */
