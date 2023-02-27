@@ -39,13 +39,6 @@ class AuthorController extends Controller
      */
     public function actionIndex()
     {
-//        $searchModel = new AuthorSearch();
-//        $dataProvider = $searchModel->search($this->request->queryParams);
-
-//        return $this->render('index', [
-//            'searchModel' => $searchModel,
-//            'dataProvider' => $dataProvider,
-//        ]);
         return $this->render('index');
     }
 
@@ -56,13 +49,9 @@ class AuthorController extends Controller
         $count = $searchModel->getCountAuthor();
         if ($this->request->isPost){
             $offset = $searchModel->offsetAuthor(self::LIMIT_PAGE,$this->request->post('page'));
+            $sort_by= $this->request->post('sort_by');
         }
-
-//        }else{
-//            $offset = $searchModel->offsetAuthor(self::LIMIT_PAGE,Yii::$app->request->post('page'));
-//        }
-
-        $dataSearch = $searchModel->getAuthor(self::LIMIT_PAGE,$offset);
+        $dataSearch = $searchModel->getAuthor(self::LIMIT_PAGE,$offset,$sort_by);
 
         $data = [
             'count' => $count,
@@ -77,28 +66,30 @@ class AuthorController extends Controller
         $response->send();
     }
 
-//    public function actionCountPage(){
-//        $authorSearch = new AuthorSearch();
-//        $count = $authorSearch->getCountAuthor();
-//
-//        $response =  Yii::$app->response;
-//        $response->format = yii\web\Response::FORMAT_JSON;
-//        $response->data = $count;
-//        $response->send();
-//
-//    }
+    public function actionSearchAuthor(){
+        $searchModel = new AuthorSearch();
+        if ($this->request->isPost){
+            $offset = $searchModel->offsetAuthor(self::LIMIT_PAGE,$this->request->post('page'));
+            $sort_by= $this->request->post('sort_by');
+            $search_query = $this->request->post('query');
+            $dataSearch = $searchModel->searchAuthor($search_query,self::LIMIT_PAGE,$offset,$sort_by);
+            $count = count($dataSearch);
 
-    /**
-     * Displays a single Author model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        }
+
+
+        $data = [
+            'count' => $count,
+            'dataSearch' => $dataSearch,
+            'limit_page'=>self::LIMIT_PAGE,
+            'offset'=>$offset,
+        ];
+
+        $response =  Yii::$app->response;
+        $response->format = yii\web\Response::FORMAT_JSON;
+        $response->data = $data;
+        $response->send();
+
     }
 
     /**
@@ -142,19 +133,38 @@ class AuthorController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost) {
+            $id = $this->request->post('id');
+            $model = Author::findOne(['id'=>$id]);
+            $response =  Yii::$app->response;
+            $response->format = yii\web\Response::FORMAT_JSON;
+            $model->name =$this->request->post('name');
+            $model->surname =$this->request->post('surname');
+            $model->patronymic =$this->request->post('patronymic');
+            if($model->validate()){
+                $response->data = $this->request->post();
+                $data=[
+                    'massage'=>'successful_save',
+                    'data'=>$this->request->post(),
+                ];
+                $model->save();
+            }else{
+                $response->data = $data=[
+                    'massage'=>'error_save',
+                    'data'=> $model->errors,
+                ];
+            }
+        }else{
+            $data=[
+                'massage'=>'empty data post',
+                'data'=>$this->request->post(),
+            ];
         }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        $response->data =$data;
+        $response->send();
     }
 
     /**
@@ -164,26 +174,29 @@ class AuthorController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Author model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Author the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Author::findOne(['id' => $id])) !== null) {
-            return $model;
+        if ($this->request->isPost) {
+            $id = $this->request->post('id');
+           $result =  Author::findOne(['id'=>$id])->delete();
+            $response = Yii::$app->response;
+            $response->format = yii\web\Response::FORMAT_JSON;
+            $response->data = $result;
+            $response->send();
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+
+    public function actionGetAuthor()
+    {
+        if($this->request->isPost){
+            $id = $this->request->post('id');
+            $author = Author::findOne(['id' => $id]);
+                $response = Yii::$app->response;
+                $response->format = yii\web\Response::FORMAT_JSON;
+                $response->data = $author;
+                $response->send();
+        }
     }
 }

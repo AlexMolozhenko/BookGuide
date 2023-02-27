@@ -1,4 +1,14 @@
+<button type="button" class="sort_by_surname">Sort by surname</button>
+<div>
+    <form>
+        <label>Search by Name/Surname
+            <input type="text" name="search_by" id="search_by_name_surname">
+            <button type="button" class="button_search_by_name_surname">Search</button>
+        </label>
 
+    </form>
+
+</div>
 <table class="author_table">
     <tr>
         <th class="num_table">№</th>
@@ -24,33 +34,3 @@
         <span class="max_count_page"></span>
         <span><button type="button" class="forward_page">></button></span>
 </div>
-<?php //Pjax::begin(); ?>
-<!--    --><?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-<!--    <pre>-->
-<!--        --><?php //var_dump($dataProvider);?>
-<!--    </pre>-->
-<!--    <pre>-->
-<!--        --><?php //var_dump($searchModel); ?>
-<!--    </pre>-->
-
-
-<!--    --><?//= GridView::widget([
-//        'dataProvider' => $dataProvider,
-//        'filterModel' => $searchModel,
-//        'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
-//
-//            'id',
-//            'name',
-//            'surname',
-//            'patronymic',
-//            [
-//                'class' => ActionColumn::className(),
-//                'urlCreator' => function ($action, Author $model, $key, $index, $column) {
-//                    return Url::toRoute([$action, 'id' => $model->id]);
-//                 }
-//            ],
-//        ],
-//    ]); ?>
-<!---->
-<!--    --><?php //Pjax::end(); ?>

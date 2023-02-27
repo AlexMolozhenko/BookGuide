@@ -69,14 +69,14 @@ class AuthorSearch extends Author
         return $dataProvider;
     }
 
-    public function getAuthor($limit,$offset=0){
+    public function getAuthor($limit,$offset=0,$sort){
         $query = Author::find();
 
         $author = $query
             ->select('id,surname,name,patronymic')
             ->offset($offset)
             ->limit($limit)
-            ->orderBy('id')
+            ->orderBy($sort)
             ->all();
         $data=[
             'author'=>$author,
@@ -95,4 +95,20 @@ class AuthorSearch extends Author
         return $startNum;
     }
 
+    public function searchAuthor($search,$limit,$offset=0,$sort){
+        $query = Author::find();
+
+        $author = $query
+            ->select('id,surname,name,patronymic')
+            ->where(['like','name',"%$search%", false])
+            ->orWhere(['like','surname',"%$search%",false])
+            ->offset($offset)
+            ->limit($limit)
+            ->orderBy($sort)
+            ->all();
+        $data=[
+            'author'=>$author,
+        ];
+        return $data;
+    }
 }
