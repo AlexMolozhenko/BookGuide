@@ -9,12 +9,12 @@
     </form>
 
 </div>
-<table class="author_table">
+<table class="author_table table">
     <tr>
         <th class="num_table">№</th>
-        <th class="surname_author">Surname</th>
         <th class="name_author">Name</th>
         <th class="patronymic_author">Patronymic</th>
+        <th class="surname_author">Surname</th>
         <th>Edit/Delete</th>
     </tr>
 </table>
@@ -24,7 +24,6 @@
                    value="<?=Yii::$app->request->csrfToken?>"/>
         </form>
         <form>
-
             <input type="hidden" id="input_current_page">
             <input type="hidden" id="input_max_count_page">
         </form>

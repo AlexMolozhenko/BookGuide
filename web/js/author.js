@@ -108,7 +108,6 @@ let generateTable = function(data_author,data_offset){
                 idAuthor=data_tr[val];
             }
         }
-         // newtr.innerHTML +=`<td><button type="button" id="`+idAuthor+`" class="editAuthor btn btn-warning">Edit</button><button type="button" id="`+idAuthor+`" class="deleteAuthor btn btn-danger">Delete</button></td>`;
          newtr.innerHTML +=`<td><p id="`+idAuthor+`" data-action="edit"  class="editAuthor btn btn-warning">Edit</p><p data-action="delete" id="`+idAuthor+`" class="deleteAuthor btn btn-danger">Delete</p></td>`;
         tbl.append(newtr);
     }
@@ -163,8 +162,6 @@ $('.author_table').on('click',function (e){
 });
 //edit/delete  author (end) ////////////
 
-
-
 let getAuthor  =  function(page_number= 1){
     let sort_by;
     if(sessionStorage.getItem('sort_by_surname')==='true'){
@@ -172,7 +169,6 @@ let getAuthor  =  function(page_number= 1){
     }else{
         sort_by = 'id';
     }
-
     var formdata = document.getElementById("getAuthorListForm");
     var form = new FormData(formdata);
     form.append("page",page_number);
@@ -234,11 +230,11 @@ var turnPage = function(direction){
     viewNumPage()
 }
 
-// $('.back_page').on('click',turnPage(DIRECTION_PAGE_BACK));
+
 $('.back_page').on('click',function(){
     turnPage(DIRECTION_PAGE_BACK)
 });
-// $('.forward_page').on('click',turnPage(DIRECTION_PAGE_FORWARD));
+
 $('.forward_page').on('click',function(){
     turnPage(DIRECTION_PAGE_FORWARD)
 });

@@ -1,9 +1,26 @@
 <?php
-/** @var yii\web\View $this */
-use yii\helpers\Url;
+
+use app\models\Books;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\ActionColumn;
+use yii\grid\GridView;
+use yii\widgets\Pjax;
+use app\assets\BookAsset;
+BookAsset::register($this);
+/** @var yii\web\View $this */
+/** @var app\models\BookSearch $searchModel */
+/** @var yii\data\ActiveDataProvider $dataProvider */
+
+$this->title = 'Books';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1>book/index</h1>
+<div class="books-index">
 
-<button class=" btn btn-primary" type="button"><?= Html::img(  Url::to('@web/icon/icon-plus.png'), ['alt' => 'plusico']) ?><?= Html::img(  Url::to('@web/icon/book.ico'), ['alt' => 'bookico']) ?></button>
+    <h1><?= Html::encode($this->title) ?></h1>
+    <button class="addBook btn btn-primary ">+ Book</button>
 
+    <?php include_once 'bookForm.php';?>
+    <?php include_once 'bookTable.php';?>
+
+</div>
