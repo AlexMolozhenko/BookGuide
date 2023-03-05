@@ -11,6 +11,7 @@ use Yii;
  * @property string $title
  * @property string|null $description
  * @property string|null $publication_date
+ * @property string|null $name_img
  *
  * @property BookAuthor[] $bookAuthors
  */
@@ -31,16 +32,11 @@ class Books extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['description'], 'string'],
+            [['description','name_img'], 'string'],
             [['title', 'publication_date'], 'string', 'max' => 255],
         ];
     }
-    public function getAuthors()
-    {
 
-        return $this->hasMany(Author::class, ['id' => 'author_id'])
-            ->viaTable('book_author', ['book_id' => 'id']);
-    }
 
     /**
      * {@inheritdoc}
@@ -52,6 +48,7 @@ class Books extends \yii\db\ActiveRecord
             'title' => 'Title',
             'description' => 'Description',
             'publication_date' => 'Publication Date',
+            'name_img' => 'Name Img',
         ];
     }
 
@@ -64,4 +61,12 @@ class Books extends \yii\db\ActiveRecord
     {
         return $this->hasMany(BookAuthor::class, ['book_id' => 'id']);
     }
+
+    public  function getAuthors()
+    {
+        return $this->hasMany(Author::class, ['id' => 'author_id'])
+            ->viaTable('book_author', ['book_id' => 'id']);
+    }
+
+
 }

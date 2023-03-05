@@ -82,3 +82,20 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+.homeContent{
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+.homeRow{
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-between;
+    width: 100%;
+}

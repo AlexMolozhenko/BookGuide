@@ -1,0 +1,70 @@
+
+#Book_form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.windowModal{
+    position: fixed;
+    z-index: 100;
+    top: 60px;
+    right: 0;
+    background-color: rgba(6,58,16,0.29);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 30%;
+    justify-content: center;
+    background-color: silver;
+}
+.closeBookForm{
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.errorInput{
+    background-color: rgba(255,206,207,0.86);
+}
+.listAuthor{
+    position: absolute;
+    background-color: darkkhaki;
+    height: 200px;
+    overflow-y: scroll;
+    list-style-type: none;
+    padding: 2px;
+    font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+}
+li{
+    cursor:pointer;
+}
+.listA{
+    background-color: lightcoral;
+}
+.btn-close{
+    cursor:pointer;
+}
+.descriptionP{
+    overflow-y: scroll;
+    height: 100px;
+}
+img{
+    width:100px ;
+}
+.elemBookList{
+    float: left;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 10px;
+
+}
+.elemBookList > div{
+    width:100%;
+}
+.listBook{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

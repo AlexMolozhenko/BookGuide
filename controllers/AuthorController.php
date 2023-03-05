@@ -42,9 +42,10 @@ class AuthorController extends Controller
         return $this->render('index');
     }
 
+    /**
+     * get list of authors
+     */
     public function actionGetAuthorList(){
-
-
         $searchModel = new AuthorSearch();
         $count = $searchModel->getCountAuthor();
         if ($this->request->isPost){
@@ -52,20 +53,21 @@ class AuthorController extends Controller
             $sort_by= $this->request->post('sort_by');
         }
         $dataSearch = $searchModel->getAuthor(self::LIMIT_PAGE,$offset,$sort_by);
-
         $data = [
             'count' => $count,
             'dataSearch' => $dataSearch,
             'limit_page'=>self::LIMIT_PAGE,
             'offset'=>$offset,
         ];
-
         $response =  Yii::$app->response;
         $response->format = yii\web\Response::FORMAT_JSON;
         $response->data = $data;
         $response->send();
     }
 
+    /**
+     * get author by user request
+     */
     public function actionSearchAuthor(){
         $searchModel = new AuthorSearch();
         if ($this->request->isPost){
@@ -74,27 +76,21 @@ class AuthorController extends Controller
             $search_query = $this->request->post('query');
             $dataSearch = $searchModel->searchAuthor($search_query,self::LIMIT_PAGE,$offset,$sort_by);
             $count = count($dataSearch);
-
         }
-
-
         $data = [
             'count' => $count,
             'dataSearch' => $dataSearch,
             'limit_page'=>self::LIMIT_PAGE,
             'offset'=>$offset,
         ];
-
         $response =  Yii::$app->response;
         $response->format = yii\web\Response::FORMAT_JSON;
         $response->data = $data;
         $response->send();
-
     }
 
     /**
      * Creates a new Author model
-     * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
@@ -130,9 +126,6 @@ class AuthorController extends Controller
 
     /**
      * Updates an existing Author model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
      */
     public function actionUpdate()
     {
@@ -169,10 +162,6 @@ class AuthorController extends Controller
 
     /**
      * Deletes an existing Author model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete()
     {
@@ -188,6 +177,9 @@ class AuthorController extends Controller
     }
 
 
+    /**
+     * get author by id
+     */
     public function actionGetAuthor()
     {
         if($this->request->isPost){

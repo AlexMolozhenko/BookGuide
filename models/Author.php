@@ -53,4 +53,8 @@ class Author extends \yii\db\ActiveRecord
             'patronymic' => 'Patronymic',
         ];
     }
+    public function getBookAuthors()
+    {
+        return $this->hasMany(BookAuthor::class, ['author_id' => 'id']);
+    }
 }
